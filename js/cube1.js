@@ -1,6 +1,7 @@
 var container, stats; // html elements to use
 var camera, scene, renderer; // 3d env vars
-var cube1, cube2, plane; // 3d elements
+var cube1, cube2; // 3d elements
+var cube=[];
 
 var targetRotation = 0;
 var targetRotationOnMouseDown = 0;
@@ -15,6 +16,8 @@ init();
 animate();
 
 function init() {
+    var geometry,material;
+
     container = document.createElement('div');
     document.body.appendChild(container);
 
@@ -24,9 +27,16 @@ function init() {
 
     scene = new THREE.Scene();
 
-    // Cube 1
+    // Cubes
+    for (var i = 0, numOfCubes=1; i<numOfCubes; i++ ) {
+        geometry = new THREE.CubeGeometry(200, 200, 200); // TODO: define cube size/translator
+        material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors });
+        cube[i] = new THREE.Mesh(geometry, material);
+        cube[i].position.y = 150;
+        scene.add(cube[i]);
+    }
 
-    var geometry = new THREE.CubeGeometry(200, 200, 200);
+    /*
 
     for (var i = 0; i < geometry.faces.length; i++) {
 
@@ -34,39 +44,7 @@ function init() {
 
     }
 
-    var material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors });
-
-    cube1 = new THREE.Mesh(geometry, material);
-    cube1.position.y = 150;
-    scene.add(cube1);
-
-
-    // Cube 2
-
-    geometry = new THREE.CubeGeometry(200, 200, 200);
-
-    for (var i = 0; i < geometry.faces.length; i++) {
-
-        geometry.faces[ i ].color.setHex(Math.random() * 0xffffff);
-
-    }
-
-    var material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors });
-
-    cube2 = new THREE.Mesh(geometry, material);
-    cube2.position.x = 200;
-    cube2.position.y = 150;
-    scene.add(cube2);
-
-    // Plane
-
-    var geometry = new THREE.PlaneGeometry(200, 200);
-    geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
-
-    var material = new THREE.MeshBasicMaterial({ color: 0xe0e0e0 });
-
-    plane = new THREE.Mesh(geometry, material);
-    scene.add(plane);
+    */
 
     renderer = new THREE.CanvasRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -179,8 +157,7 @@ function animate() {
 
 function render() {
 
-    plane.rotation.y = cube1.rotation.y += ( targetRotation - cube1.rotation.y ) * 0.05;
-    cube2.rotation.y += ( targetRotation - cube2.rotation.y ) * 0.05;
+    cube[0].rotation.y += ( targetRotation - cube[0].rotation.y ) * 0.05;
     renderer.render(scene, camera);
 
 }
