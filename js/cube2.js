@@ -245,9 +245,9 @@ function init() {
 
     for (var i=0; i<cubes.length; i++){
         geometry[i] = new THREE.CubeGeometry(200, 200, 200); // TODO: define cube size/translator
-        setCubeColors(geometry[i],cubes[i].colors);
-        material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors });
+        material = new THREE.MeshBasicMaterial( { color: 0x333333 } );
         cubesMesh[i] = new THREE.Mesh(geometry[i], material);
+        setCubePlanes(cubesMesh[i],cubes[i].colors);
         setCubePosition(cubesMesh[i],cubes[i].position);
         cube.add(cubesMesh[i]); 
     }
@@ -277,31 +277,39 @@ function init() {
     window.addEventListener('resize', onWindowResize, false);
 }
 
-function setCubeColors(cube,colors){
+function setCubePlanes(cube,colors){
+    var plane = {};
 
     for ( var i = 0; i < colors.length; i++ )
     {
         switch (colors.charAt(i)){
             case 'n':
-                cube.faces[i].color.setHex( 0x000000 );
+                //cube.faces[i].color.setHex( 0x000000 );
                 break;
             case 'w':
-                cube.faces[i].color.setHex( 0xffffff );
+                plane = new THREE.Mesh(new THREE.PlaneGeometry(190, 190), new THREE.MeshBasicMaterial( { color: 0xffffff } ));
+                plane.position.x = 104;
+                plane.position.y = 3;
+                plane.rotation.y = ( Math.PI / 2 );
+                cube.add(plane);
                 break;
             case 'g':
-                cube.faces[i].color.setHex( 0x00ff00 );
+                //cube.faces[i].color.setHex( 0x00ff00 );
                 break;
             case 'y':
-                cube.faces[i].color.setHex( 0xffff00 );
+                //cube.faces[i].color.setHex( 0xffff00 );
                 break;
             case 'b':
-                cube.faces[i].color.setHex( 0x0000ff );
+                //cube.faces[i].color.setHex( 0x0000ff );
                 break;
             case 'r':
-                cube.faces[i].color.setHex( 0xff0000 );
+                plane = new THREE.Mesh(new THREE.PlaneGeometry(190, 190), new THREE.MeshBasicMaterial( { color: 0xff0000 } ));
+                plane.position.z = 104;
+                plane.position.y = 3;
+                cube.add(plane);
                 break;
             case 'o':
-                cube.faces[i].color.setHex( 0xffa500 );
+                //cube.faces[i].color.setHex( 0xffa500 );
                 break;
         }
     }
@@ -309,9 +317,9 @@ function setCubeColors(cube,colors){
 }
 
 function setCubePosition(cube,position){
-    cube.position.x= -310+((position[0]*200)+(position[0]*10)) +80;
-    cube.position.y= 310 - ((position[1]*200)+(position[1]*10));
-    cube.position.z= 310 -((position[2]*200)+(position[2]*10));
+    cube.position.x= -310 +(position[0]*200);
+    cube.position.y= 310 - (position[1]*200);
+    cube.position.z= 310 -(position[2]*200);
 }
 
 function onWindowResize() {
@@ -358,52 +366,37 @@ function onDocumentMouseUp(event) {
 }
 
 function onDocumentMouseOut(event) {
-
     document.removeEventListener('mousemove', onDocumentMouseMove, false);
     document.removeEventListener('mouseup', onDocumentMouseUp, false);
     document.removeEventListener('mouseout', onDocumentMouseOut, false);
-
 }
 
 function onDocumentTouchStart(event) {
-
     if (event.touches.length === 1) {
-
         event.preventDefault();
-
         mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
         targetRotationOnMouseDown = targetRotation;
-
     }
-
 }
 
 function onDocumentTouchMove(event) {
-
     if (event.touches.length === 1) {
-
         event.preventDefault();
-
         mouseX = event.touches[ 0 ].pageX - windowHalfX;
         targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
-
     }
-
 }
 
 //
 
 function animate() {
-
     requestAnimationFrame(animate);
-
     render();
     stats.update();
 
 }
 
 function render() {
-
     cube.rotation.y += ( targetRotation - cube.rotation.y ) * 0.05;
     renderer.render(scene, camera);
 
