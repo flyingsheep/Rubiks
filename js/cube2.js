@@ -219,8 +219,9 @@ var cubesMesh = [];
 var targetRotation = 0;
 var targetRotationOnMouseDown = 0;
 
-var mouseX = 0;
+var mouseX = 0, mouseY = 0;
 var mouseXOnMouseDown = 0;
+var mouseYOnMouseDown = 0;
 
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
@@ -268,13 +269,8 @@ function init() {
     stats.domElement.style.top = '0px';
     container.appendChild(stats.domElement);
 
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
-    document.addEventListener('touchstart', onDocumentTouchStart, false);
-    document.addEventListener('touchmove', onDocumentTouchMove, false);
-
-    //
-
-    window.addEventListener('resize', onWindowResize, false);
+    document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+    window.addEventListener( 'resize', onWindowResize, false );
 }
 
 function setCubePlanes(cube,colors){
@@ -334,60 +330,15 @@ function onWindowResize() {
 
 }
 
-//
-
-function onDocumentMouseDown(event) {
-
-    event.preventDefault();
-
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
-    document.addEventListener('mouseup', onDocumentMouseUp, false);
-    document.addEventListener('mouseout', onDocumentMouseOut, false);
-
-    mouseXOnMouseDown = event.clientX - windowHalfX;
-    targetRotationOnMouseDown = targetRotation;
-
-}
-
 function onDocumentMouseMove(event) {
+    mouseX = ( event.clientX - windowHalfX );
+    mouseY = ( event.clientY - windowHalfY );
 
-    mouseX = event.clientX - windowHalfX;
-
-    targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
-
+    //mouseX = event.clientX - windowHalfX;
+    //targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
 }
 
-function onDocumentMouseUp(event) {
 
-    document.removeEventListener('mousemove', onDocumentMouseMove, false);
-    document.removeEventListener('mouseup', onDocumentMouseUp, false);
-    document.removeEventListener('mouseout', onDocumentMouseOut, false);
-
-}
-
-function onDocumentMouseOut(event) {
-    document.removeEventListener('mousemove', onDocumentMouseMove, false);
-    document.removeEventListener('mouseup', onDocumentMouseUp, false);
-    document.removeEventListener('mouseout', onDocumentMouseOut, false);
-}
-
-function onDocumentTouchStart(event) {
-    if (event.touches.length === 1) {
-        event.preventDefault();
-        mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
-        targetRotationOnMouseDown = targetRotation;
-    }
-}
-
-function onDocumentTouchMove(event) {
-    if (event.touches.length === 1) {
-        event.preventDefault();
-        mouseX = event.touches[ 0 ].pageX - windowHalfX;
-        targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
-    }
-}
-
-//
 
 function animate() {
     requestAnimationFrame(animate);
@@ -397,7 +348,11 @@ function animate() {
 }
 
 function render() {
-    cube.rotation.y += ( targetRotation - cube.rotation.y ) * 0.05;
+    camera.position.x += ( mouseX - camera.position.x ) * 0.2;
+    camera.position.y += ( windowHalfY- mouseY - camera.position.y ) * 0.2;
+    camera.lookAt(new THREE.Vector3(0,500,0));
+
+    //cube.rotation.y += ( targetRotation - cube.rotation.y ) * 0.05;
     renderer.render(scene, camera);
 
 }
