@@ -1,233 +1,35 @@
 /*
 
-    center cubes
-    -------------
-
-    center_yellow (in front of) center_white
-    center_blue (in front of) center_green
-    center_orange (in front of) center_red
-
-    corner cobes
-    -------------
-
-    corner_rwb, corner_rby, corner_ryg, corner_rgw
-    corner_obw, corner_owg, corner_ogy, corner_oyb
-
-    edge cobes
-    ----------
-
-    edge_gw, corner_gr, corner_gy, corner_go
-    edge_bo, edge_bw, edge_br, edge_by
-    edhe_ow, edge_wr, edge_ry, edge_yo
-
-    overall 26 cubes
-    ----------------
-
-
+    Rubiks Take: 1.3.2
+    
+    A cube built from basic mini cubes
 
 */
 
 
-var container, stats; // html elements to use
-var camera, scene, renderer; // 3d env vars
-var cubes = [{
-        id: 1,
-        name:"c000",
-        type: "corner",
-        position:[0,0,0],
-        colors: "nybnrn",
-        rotation:""
-    },{
-        id: 2,
-        name:"c100",
-        type: "edge",
-        position:[1,0,0],
-        colors: "nnbnrn",
-        rotation:""
-    },{
-        id: 3,
-        name:"c200",
-        type: "corner",
-        position:[2,0,0],
-        colors: "wnbnrn",
-        rotation:""
-    },{
-        id: 4,
-        name:"c010",
-        type: "edge",
-        position:[0,1,0],
-        colors: "nynnrn",
-        rotation:""
-    },{
-        id: 5,
-        name:"c110",
-        type: "center",
-        position:[1,1,0],
-        colors: "nnnnrn",
-        rotation:""
-    },{
-        id: 6,
-        name:"c210",
-        type: "edge",
-        position:[2,1,0],
-        colors: "wnnnrn",
-        rotation:""
-    },{
-        id: 7,
-        name:"c020",
-        type: "corner",
-        position:[0,2,0],
-        colors: "nyngrn",
-        rotation:""
-    },{
-        id: 8,
-        name:"c120",
-        type: "edge",
-        position:[1,2,0],
-        colors: "nnngrn",
-        rotation:""
-    },{
-        id: 9,
-        name:"c220",
-        type: "corner",
-        position:[2,2,0],
-        colors: "wnngrn",
-        rotation:""
-    },{
-        id: 10,
-        name:"c001",
-        type: "edge",
-        position:[0,0,1],
-        colors: "nybnnn",
-        rotation:""
-    },{
-        id: 11,
-        name:"c101",
-        type: "center",
-        position:[1,0,1],
-        colors: "nnbnnn",
-        rotation:""
-    },{
-        id: 12,
-        name:"c201",
-        type: "edge",
-        position:[2,0,1],
-        colors: "wnbnnn",
-        rotation:""
-    },{
-        id: 13,
-        name:"c011",
-        type: "center",
-        position:[0,1,1],
-        colors: "nynnnn",
-        rotation:""
-    },{
-        id: 14,
-        name:"c211",
-        type: "center",
-        position:[2,1,1],
-        colors: "wnnnnn",
-        rotation:""
-    },{
-        id: 15,
-        name:"c021",
-        type: "edge",
-        position:[0,2,1],
-        colors: "nyngnn",
-        rotation:""
-    },{
-        id: 16,
-        name:"c121",
-        type: "center",
-        position:[1,2,1],
-        colors: "nnngnn",
-        rotation:""
-    },{
-        id: 17,
-        name:"c221",
-        type: "edge",
-        position:[2,2,1],
-        colors: "wnngnn",
-        rotation:""
-    },{
-        id: 18,
-        name:"c002",
-        type: "corner",
-        position:[0,0,2],
-        colors: "nybnno",
-        rotation:""
-    },{
-        id: 19,
-        name:"c102",
-        type: "edge",
-        position:[1,0,2],
-        colors: "nnbnno",
-        rotation:""
-    },{
-        id: 20,
-        name:"c202",
-        type: "corner",
-        position:[2,0,2],
-        colors: "wnbnno",
-        rotation:""
-    },{
-        id: 21,
-        name:"c012",
-        type: "edge",
-        position:[0,1,2],
-        colors: "nynnno",
-        rotation:""
-    },{
-        id: 22,
-        name:"c112",
-        type: "center",
-        position:[1,1,2],
-        colors: "nnnnno",
-        rotation:""
-    },{
-        id: 23,
-        name:"c212",
-        type: "edge",
-        position:[2,1,2],
-        colors: "wnnnno",
-        rotation:""
-    },{
-        id: 24,
-        name:"c022",
-        type: "corner",
-        position:[0,2,2],
-        colors: "nyngno",
-        rotation:""
-    },{
-        id: 25,
-        name:"c122",
-        type: "edge",
-        position:[1,2,2],
-        colors: "nnngno",
-        rotation:""
-    },{
-        id: 26,
-        name:"c222",
-        type: "corner",
-        position:[2,2,2],
-        colors: "wnngno",
-        rotation:""
-}]
-var cube;
-var cubesMesh = [];
+var container, stats; // View elements
+var camera, scene, renderer; // 3d env methods
 
-var targetRotation = 0;
-var targetRotationOnMouseDown = 0;
+var cube; // Cube main object
+var cubesMesh = []; // this is the mini cubes array
 
+// mouse move little helpers
 var mouseX = 0;
-var mouseXOnMouseDown = 0;
+var mouseY = 0;
 
+// where is the center?
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
+// let's go
 init();
 animate();
 
+//
+// functions
+//
+
+// first time stuff
 function init() {
     var geometry =[];
     var material;
@@ -235,8 +37,9 @@ function init() {
     container = document.createElement('div');
     document.body.appendChild(container);
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight,1, 2000);
-    camera.position.y = 310;
+
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight,1, 5000);
+    camera.position.y = windowHalfY-310;
     camera.position.z = 1500;
 
     scene = new THREE.Scene();
@@ -268,17 +71,12 @@ function init() {
     stats.domElement.style.top = '0px';
     container.appendChild(stats.domElement);
 
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
-    document.addEventListener('touchstart', onDocumentTouchStart, false);
-    document.addEventListener('touchmove', onDocumentTouchMove, false);
-
-    //
-
-    window.addEventListener('resize', onWindowResize, false);
+    // do you listen?
+    document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+    window.addEventListener( 'resize', onWindowResize, false );
 }
 
 function setCubeColors(cube,colors){
-
     for ( var i = 0; i < colors.length; i++ )
     {
         switch (colors.charAt(i)){
@@ -315,96 +113,27 @@ function setCubePosition(cube,position){
 }
 
 function onWindowResize() {
-
     windowHalfX = window.innerWidth / 2;
     windowHalfY = window.innerHeight / 2;
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize(window.innerWidth, window.innerHeight);
-
-}
-
-//
-
-function onDocumentMouseDown(event) {
-
-    event.preventDefault();
-
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
-    document.addEventListener('mouseup', onDocumentMouseUp, false);
-    document.addEventListener('mouseout', onDocumentMouseOut, false);
-
-    mouseXOnMouseDown = event.clientX - windowHalfX;
-    targetRotationOnMouseDown = targetRotation;
-
 }
 
 function onDocumentMouseMove(event) {
-
-    mouseX = event.clientX - windowHalfX;
-
-    targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.02;
-
+    mouseX = ( event.clientX - windowHalfX ) * 2;
+    mouseY = ( event.clientY - windowHalfY ) * 3;s
 }
-
-function onDocumentMouseUp(event) {
-
-    document.removeEventListener('mousemove', onDocumentMouseMove, false);
-    document.removeEventListener('mouseup', onDocumentMouseUp, false);
-    document.removeEventListener('mouseout', onDocumentMouseOut, false);
-
-}
-
-function onDocumentMouseOut(event) {
-
-    document.removeEventListener('mousemove', onDocumentMouseMove, false);
-    document.removeEventListener('mouseup', onDocumentMouseUp, false);
-    document.removeEventListener('mouseout', onDocumentMouseOut, false);
-
-}
-
-function onDocumentTouchStart(event) {
-
-    if (event.touches.length === 1) {
-
-        event.preventDefault();
-
-        mouseXOnMouseDown = event.touches[ 0 ].pageX - windowHalfX;
-        targetRotationOnMouseDown = targetRotation;
-
-    }
-
-}
-
-function onDocumentTouchMove(event) {
-
-    if (event.touches.length === 1) {
-
-        event.preventDefault();
-
-        mouseX = event.touches[ 0 ].pageX - windowHalfX;
-        targetRotation = targetRotationOnMouseDown + ( mouseX - mouseXOnMouseDown ) * 0.05;
-
-    }
-
-}
-
-//
 
 function animate() {
-
     requestAnimationFrame(animate);
-
     render();
     stats.update();
-
 }
 
 function render() {
-
-    cube.rotation.y += ( targetRotation - cube.rotation.y ) * 0.05;
+    camera.position.x = mouseX;
+    camera.position.y = -mouseY;
+    camera.lookAt(new THREE.Vector3(0,windowHalfY,0));
     renderer.render(scene, camera);
-
 }
