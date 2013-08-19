@@ -46,7 +46,7 @@ function init() {
 
     cube = new THREE.Object3D();//create an empty container
 
-    for (var i=0; i<cubes.length; i++){
+    for (var i=0,len=cubes.length; i<len; i++){
         geometry[i] = new THREE.CubeGeometry(200, 200, 200); // TODO: define cube size/translator
         setCubeColors(geometry[i],cubes[i].colors);
         material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors });
@@ -107,9 +107,10 @@ function setCubeColors(cube,colors){
 }
 
 function setCubePosition(cube,position){
-    cube.position.x= -310+((position[0]*200)+(position[0]*10)) +80;
-    cube.position.y= 310 - ((position[1]*200)+(position[1]*10));
-    cube.position.z= 310 -((position[2]*200)+(position[2]*10));
+    var padding = 3;
+    cube.position.x= -310+(position[0]*(200+padding));
+    cube.position.y= 310 - (position[1]*(200+padding));
+    cube.position.z= 310 -(position[2]*(200+padding));
 }
 
 function onWindowResize() {

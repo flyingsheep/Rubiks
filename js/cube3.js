@@ -21,6 +21,9 @@ var mouseY = 0;
 var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 
+// alternate position animation toggle
+var altPositionOn = false;
+
 // let's go
 init();
 animate();
@@ -71,6 +74,8 @@ function init() {
     container.appendChild(stats.domElement);
 
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+    document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+    document.addEventListener( 'mouseup', onDocumentMouseUp, false );
     window.addEventListener( 'resize', onWindowResize, false );
 }
 
@@ -138,7 +143,14 @@ function getCubePosition(cube_position){
     return [(-310 +(cube_position[0]*200)),(310 - (cube_position[1]*200)),(310 -(cube_position[2]*200))];
 }
 
+function getCubeAltPosition(cube_id){
+    var cubeIndex =0;
+    for (var i=0; i<cubes.length; i++) { if (cubes[i].id==cube_id) { cubeIndex=i; }}
+    return cubes[cubeIndex].altPosition;
+}
+
 function onWindowResize() {
+
     windowHalfX = window.innerWidth / 2;
     windowHalfY = window.innerHeight / 2;
 
@@ -154,16 +166,84 @@ function onDocumentMouseMove(event) {
     mouseY = ( event.clientY - windowHalfY ) * 3;
 }
 
+function onDocumentMouseDown(event){
+    altPositionOn = true;
+    //    output += getCubePosition(cubes[i].altPosition);
+}
+
+function onDocumentMouseUp(event) {
+    altPositionOn = false;
+}
+
 function animate() {
     requestAnimationFrame(animate);
     render();
     stats.update();
+}
 
+function checkMiniCubes(){
+    var x,y,z;
+    var xNew, yNew, zNew;
+    var xDif, yDif, zDif;
+    
+    if (altPositionOn){ // <--- go to alternate position
+        for (var i=0; i<scene.children[0].children.length; i++){
+            x = scene.children[0].children[i].position.x;
+            xNew = getCubePosition(cubes[i].altPosition[0])[0];
+            xDif = x-xNew;
+            y = scene.children[0].children[i].position.y;
+            yNew = getCubePosition(cubes[i].altPosition[1])[1];
+            yDif = y-yNew;
+            z = scene.children[0].children[i].position.z;
+            zNew = getCubePosition(cubes[i].altPosition[2])[2];
+            zDif = z-zNew;
+
+            if (Math.abs(xDif)>0) {
+                if (Math.abs(xDif)<2) {
+                    scene.children[0].children[i].position.x = xNew;
+                }
+                else {
+                    scene.children[0].children[i].position.x += xDif/2;
+                }
+            }
+        }
+    }
+    else { // <--- go back to original position
+        for (var i=0; i<scene.children[0].children.length; i++){
+            x = scene.children[0].children[i].position.x;
+            xNew = getCubePosition(cubes[i].position[0])[0];
+            xDif = x-xNew;
+            y = scene.children[0].children[i].position.y;
+            yNew = getCubePosition(cubes[i].position[1])[1];
+            yDif = y-yNew;
+            z = scene.children[0].children[i].position.z;
+            zNew = getCubePosition(cubes[i].position[2])[2];
+            zDif = z-zNew;
+
+            if (Math.abs(xDif)>0) {
+                if (Math.abs(xDif)<2) {
+                    console.log(xDif);
+                    //scene.children[0].children[i].position.x = xNew;
+                }
+                else {
+                    console.log(xDif);
+                    //scene.children[0].children[i].position.x += xDif/2;
+                }
+            }
+        }
+    }
+    
 }
 
 function render() {
+    // mini cubes position
+    checkMiniCubes();
+
+    // camera control
     camera.position.x = mouseX;
     camera.position.y = -mouseY;
     camera.lookAt(new THREE.Vector3(0,windowHalfY,0));
+    
+    // render
     renderer.render(scene, camera);
 }
