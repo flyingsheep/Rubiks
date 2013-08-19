@@ -35,180 +35,180 @@ var cubes = [{
         type: "corner",
         position:[0,0,0],
         colors: "nybnrn",
-        altPosition: [0,0,0]
+        altPosition: [-3,-3,-3]
     },{
         id: 2,
         name:"c100",
         type: "edge",
         position:[1,0,0],
         colors: "nnbnrn",
-        altPosition: [0,0,0]
+        altPosition: [1,-2,-2.5]
     },{
         id: 3,
         name:"c200",
         type: "corner",
         position:[2,0,0],
         colors: "wnbnrn",
-        altPosition: [0,0,0]
+        altPosition: [3,-2.5,-3]
     },{
         id: 4,
         name:"c010",
         type: "edge",
         position:[0,1,0],
         colors: "nynnrn",
-        altPosition: [0,0,0]
+        altPosition: [-2,1,-2]
     },{
         id: 5,
         name:"c110",
         type: "center",
         position:[1,1,0],
         colors: "nnnnrn",
-        altPosition: [0,0,0]
+        altPosition: [1,1,-3]
     },{
         id: 6,
         name:"c210",
         type: "edge",
         position:[2,1,0],
         colors: "wnnnrn",
-        altPosition: [0,0,0]
+        altPosition: [3,1,-3]
     },{
         id: 7,
         name:"c020",
         type: "corner",
         position:[0,2,0],
         colors: "nyngrn",
-        altPosition: [0,0,0]
+        altPosition: [-1,3,-2]
     },{
         id: 8,
         name:"c120",
         type: "edge",
         position:[1,2,0],
         colors: "nnngrn",
-        altPosition: [0,0,0]
+        altPosition: [2,3,-3]
     },{
         id: 9,
         name:"c220",
         type: "corner",
         position:[2,2,0],
         colors: "wnngrn",
-        altPosition: [0,0,0]
+        altPosition: [3,3,-2.5]
     },{
         id: 10,
         name:"c001",
         type: "edge",
         position:[0,0,1],
         colors: "nybnnn",
-        altPosition: [0,0,0]
+        altPosition: [-2,2,1]
     },{
         id: 11,
         name:"c101",
         type: "center",
         position:[1,0,1],
         colors: "nnbnnn",
-        altPosition: [0,0,0]
+        altPosition: [1,2.5,1]
     },{
         id: 12,
         name:"c201",
         type: "edge",
         position:[2,0,1],
         colors: "wnbnnn",
-        altPosition: [0,0,0]
+        altPosition: [3,3,1]
     },{
         id: 13,
         name:"c011",
         type: "center",
         position:[0,1,1],
         colors: "nynnnn",
-        altPosition: [0,0,0]
+        altPosition: [-3,1,1]
     },{
         id: 14,
         name:"c211",
         type: "center",
         position:[2,1,1],
         colors: "wnnnnn",
-        altPosition: [0,0,0]
+        altPosition: [3,1,1]
     },{
         id: 15,
         name:"c021",
         type: "edge",
         position:[0,2,1],
         colors: "nyngnn",
-        altPosition: [0,0,0]
+        altPosition: [-3.5,-2,1]
     },{
         id: 16,
         name:"c121",
         type: "center",
         position:[1,2,1],
         colors: "nnngnn",
-        altPosition: [0,0,0]
+        altPosition: [1,3,1]
     },{
         id: 17,
         name:"c221",
         type: "edge",
         position:[2,2,1],
         colors: "wnngnn",
-        altPosition: [0,0,0]
+        altPosition: [3,3,1]
     },{
         id: 18,
         name:"c002",
         type: "corner",
         position:[0,0,2],
         colors: "nybnno",
-        altPosition: [0,0,0]
+        altPosition: [-2,-3,3]
     },{
         id: 19,
         name:"c102",
         type: "edge",
         position:[1,0,2],
         colors: "nnbnno",
-        altPosition: [0,0,0]
+        altPosition: [1,-2,2.5]
     },{
         id: 20,
         name:"c202",
         type: "corner",
         position:[2,0,2],
         colors: "wnbnno",
-        altPosition: [0,0,0]
+        altPosition: [3.2,-2,3]
     },{
         id: 21,
         name:"c012",
         type: "edge",
         position:[0,1,2],
         colors: "nynnno",
-        altPosition: [0,0,0]
+        altPosition: [-2.8,1,2]
     },{
         id: 22,
         name:"c112",
         type: "center",
         position:[1,1,2],
         colors: "nnnnno",
-        altPosition: [0,0,0]
+        altPosition: [1,1,3.5]
     },{
         id: 23,
         name:"c212",
         type: "edge",
         position:[2,1,2],
         colors: "wnnnno",
-        altPosition: [0,0,0]
+        altPosition: [3,1,2]
     },{
         id: 24,
         name:"c022",
         type: "corner",
         position:[0,2,2],
         colors: "nyngno",
-        altPosition: [0,0,0]
+        altPosition: [-2,4,3]
     },{
         id: 25,
         name:"c122",
         type: "edge",
         position:[1,2,2],
         colors: "nnngno",
-        altPosition: [0,0,0]
+        altPosition: [1,3,3]
     },{
         id: 26,
         name:"c222",
         type: "corner",
         position:[2,2,2],
         colors: "wnngno",
-        altPosition: [0,0,0]
+        altPosition: [3,3.5,3]
 }];
