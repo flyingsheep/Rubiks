@@ -143,12 +143,6 @@ function getCubePosition(cube_position){
     return [(-310 +(cube_position[0]*200)),(310 - (cube_position[1]*200)),(310 -(cube_position[2]*200))];
 }
 
-function getCubeAltPosition(cube_id){
-    var cubeIndex =0;
-    for (var i=0; i<cubes.length; i++) { if (cubes[i].id==cube_id) { cubeIndex=i; }}
-    return cubes[cubeIndex].altPosition;
-}
-
 function onWindowResize() {
 
     windowHalfX = window.innerWidth / 2;
@@ -188,84 +182,56 @@ function checkMiniCubes(){
 
     for (var i=0; i<scene.children[0].children.length; i++){
 
+        if (altPositionOn){
+            newPosition = getCubePosition(cubes[i].altPosition);
+        }
+        else {
+            newPosition = getCubePosition(cubes[i].position);
+        }
+        moveMiniCube(i,newPosition);
+    }
 
+    function moveMiniCube(i,newPosition){
+
+        // Find Mini cube current position
         currentPosition = [
             scene.children[0].children[i].position.x,
             scene.children[0].children[i].position.y,
             scene.children[0].children[i].position.z
         ];
 
-        if (altPositionOn){ // <--- go to alternate position
+        // Init Dif vector
+        difVector = [
+            currentPosition[0]-newPosition[0],
+            currentPosition[1]-newPosition[1],
+            currentPosition[2]-newPosition[2]
+        ];
 
-            newPosition = getCubePosition(cubes[i].altPosition);
-            difVector = [
-                currentPosition[0]-newPosition[0],
-                currentPosition[1]-newPosition[1],
-                currentPosition[2]-newPosition[2]
-            ];
-
-            // handle x move
-            if (Math.abs(difVector[0])>0) {
-                if (Math.abs(difVector[0])<2) {
-                    scene.children[0].children[i].position.x = newPosition[0];
-                }
-                else {
-                    scene.children[0].children[i].position.x -= difVector[0]/2;
-                }
+        // handle x move
+        if (Math.abs(difVector[0])>0) {
+            if (Math.abs(difVector[0])<2) {
+                scene.children[0].children[i].position.x = newPosition[0];
             }
-            // handle y move
-            if (Math.abs(difVector[1])>0) {
-                if (Math.abs(difVector[1])<2) {
-                    scene.children[0].children[i].position.y = newPosition[1];
-                }
-                else {
-                    scene.children[0].children[i].position.y -= difVector[1]/2;
-                }
-            }
-            // handle z move
-            if (Math.abs(difVector[2])>0) {
-                if (Math.abs(difVector[2])<2) {
-                    scene.children[0].children[i].position.z = newPosition[2];
-                }
-                else {
-                    scene.children[0].children[i].position.z -= difVector[2]/2;
-                }
+            else {
+                scene.children[0].children[i].position.x -= difVector[0]/3;
             }
         }
-        else { // <--- go back to original position
-            newPosition = getCubePosition(cubes[i].position);
-            difVector = [
-                currentPosition[0]-newPosition[0],
-                currentPosition[1]-newPosition[1],
-                currentPosition[2]-newPosition[2]
-            ];
-
-            // handle x move
-            if (Math.abs(difVector[0])>0) {
-                if (Math.abs(difVector[0])<2) {
-                    scene.children[0].children[i].position.x = newPosition[0];
-                }
-                else {
-                    scene.children[0].children[i].position.x -= difVector[0]/2;
-                }
+        // handle y move
+        if (Math.abs(difVector[1])>0) {
+            if (Math.abs(difVector[1])<2) {
+                scene.children[0].children[i].position.y = newPosition[1];
             }
-            // handle y move
-            if (Math.abs(difVector[1])>0) {
-                if (Math.abs(difVector[1])<2) {
-                    scene.children[0].children[i].position.y = newPosition[1];
-                }
-                else {
-                    scene.children[0].children[i].position.y -= difVector[1]/2;
-                }
+            else {
+                scene.children[0].children[i].position.y -= difVector[1]/3;
             }
-            // handle z move
-            if (Math.abs(difVector[2])>0) {
-                if (Math.abs(difVector[2])<2) {
-                    scene.children[0].children[i].position.z = newPosition[2];
-                }
-                else {
-                    scene.children[0].children[i].position.z -= difVector[2]/2;
-                }
+        }
+        // handle z move
+        if (Math.abs(difVector[2])>0) {
+            if (Math.abs(difVector[2])<2) {
+                scene.children[0].children[i].position.z = newPosition[2];
+            }
+            else {
+                scene.children[0].children[i].position.z -= difVector[2]/3;
             }
         }
     }
